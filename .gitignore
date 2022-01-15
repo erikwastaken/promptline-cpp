@@ -2,3 +2,4 @@ tags
 powerlinepp
 suite
 *.o
+*.swp

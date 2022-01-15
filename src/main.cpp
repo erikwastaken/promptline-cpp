@@ -1,26 +1,26 @@
 #include <iostream>
 #include <cstdlib>
-#include "segment.hpp"
+#include "user_segment.hpp"
+#include "cwd_segment.hpp"
+#include "rc_segment.hpp"
+#include "prompt.hpp"
 
-std::string static user() {
-    return "%n";
-}
-
-std::string static cwd() {
-    return "%0~";
-}
-
-std::string static last_rc(const Segment* next=nullptr) {
-    // X.Y.Z is the zsh/bash ternary; if X then Y else Z
-    if (next == nullptr)
-        return "%(?.." + Segment::arrow_start(255,88) + "%?" + Segment::last_arrow_end(88) + ")";
-    return "%(?.." + Segment::arrow_start(255,88) + "%?" + Segment::arrow_end(88, next->bg()) + ")";
-}
-
-int main() {
-    auto user_seg = Segment(user(), 255, 31);
-    auto cwd_seg = Segment(cwd(), 255, 241);
+// expects error code of last command as first parameter
+int main(int argc, char* argv[]) {
+    if (argc < 2)
+        return 1;
+    auto user_seg = UserSegment(255, 31);
+    auto cwd_seg = CwdSegment(255, 241);
     user_seg.next(&cwd_seg);
-    std::cout << last_rc(&user_seg) << user_seg << cwd_seg << " ";
+    Segment* root;
+    if (std::atoi(argv[1]) != 0) {
+        auto rc_seg = RcSegment(255,88);
+        rc_seg.next(&user_seg);
+        root = &rc_seg;
+    } else {
+        root = &user_seg;
+    }
+    auto prompt = Prompt(root);
+    std::cout << prompt.left() << " ";
     return 0;
 }
