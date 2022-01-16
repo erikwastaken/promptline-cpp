@@ -3,3 +3,4 @@ powerlinepp
 suite
 *.o
 *.swp
+*.toml
