@@ -7,6 +7,7 @@ class Prompt {
     public:
         explicit Prompt(const Segment *root);
         std::string left() const;
+        std::string arrowEnd(const Segment *seg, int fg) const;
     private:
         const Segment *_root;
 };

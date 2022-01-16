@@ -1,8 +1,8 @@
 #include "rc_segment.hpp"
 #include "arrows.hpp"
 
-RcSegment::RcSegment(int fg, int bg) : _fg(fg), _bg(bg) { }
+RcSegment::RcSegment(int fg, int bg, int rc) : _fg(fg), _bg(bg), _rc(rc) { }
     
 std::string RcSegment::get() const {
-    return "%?";
+    return std::to_string(_rc);
 }

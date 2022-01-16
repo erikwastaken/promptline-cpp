@@ -13,6 +13,7 @@ class Segment {
         virtual int bg() const = 0;
         virtual void next(const Segment *n) = 0; 
         virtual const Segment* next() const = 0;
+        virtual bool empty() const = 0;
 };
 
 std::ostream& operator<<(std::ostream& out, const Segment &s);

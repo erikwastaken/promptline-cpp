@@ -11,6 +11,7 @@ class CwdSegment : public Segment {
         virtual int bg() const override { return _bg; };
         virtual void next(const Segment *n) override { _next = n; };
         virtual const Segment* next() const override { return _next; };
+        virtual bool empty() const override { return false; };
     private:
         std::string _cwd {};
         int _fg;

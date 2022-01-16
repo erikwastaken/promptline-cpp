@@ -11,7 +11,7 @@ class GitSegment : public Segment {
         virtual int bg() const override { return _bg; };
         virtual void next(const Segment *n) override { _next = n; };
         virtual const Segment* next() const override { return _next; };
-        bool empty() const { return get().empty(); };
+        virtual bool empty() const override { return get().empty(); };
     private:
         class Command {
             public:
