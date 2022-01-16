@@ -6,9 +6,11 @@ GitSegment::GitSegment(int fg, int bg) : _fg(fg), _bg(bg) {
     auto out = Command("git rev-parse --abbrev-ref HEAD").output();
     if (out.empty())
         return;
-    _branch = "\ue0a0";
+    _branch += "%b";
+    _branch += "\ue0a0";
     _branch += " ";
     _branch += out;
+    _branch += "%B";
 }
 
 std::string GitSegment::get() const {
