@@ -6,9 +6,9 @@ TESTS=$(wildcard test/*.cpp)
 TOBJS=$(subst .cpp,.o,$(TESTS))
 SUT=$(filter-out src/edit.o,$(OBJS))
 
-all: suite powerlinepp
+all: suite powerline-cpp
 
-powerlinepp: $(OBJS)
+powerline-cpp: $(OBJS)
 	$(CXX) $^ -o $@
 
 suite: $(TOBJS) $(SUT)

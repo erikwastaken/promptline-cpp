@@ -5,6 +5,7 @@
 #include "git_segment.hpp"
 #include "rc_segment.hpp"
 #include "virtualenv_segment.hpp"
+#include "ssh_host_segment.hpp"
 #include "prompt.hpp"
 
 // expects error code of last command as first parameter
@@ -18,8 +19,10 @@ int main(int argc, char* argv[]) {
     auto rc = std::atoi(argv[1]);
     auto rc_seg = RcSegment(255, 88, rc);
     auto venv_seg = VenvSegment(255, 38);
+    auto ssh_seg = SshHostSegment(255,208);
 
-    rc_seg.next(&user_seg);
+    rc_seg.next(&ssh_seg);
+    ssh_seg.next(&user_seg);
     user_seg.next(&venv_seg);
     venv_seg.next(&git_seg);
     git_seg.next(&cwd_seg);

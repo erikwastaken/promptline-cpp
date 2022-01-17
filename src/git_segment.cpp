@@ -1,6 +1,7 @@
 #include "git_segment.hpp"
 #include <fstream>
 #include <cstdlib>
+#include <filesystem>
 
 GitSegment::GitSegment(int fg, int bg) : _fg(fg), _bg(bg) {
     auto out = Command("git rev-parse --abbrev-ref HEAD").output();
