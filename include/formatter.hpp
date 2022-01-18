@@ -1,0 +1,23 @@
+#ifndef POWERLINEPP_FORMATTER_HPP
+#define POWERLINEPP_FORMATTER_HPP
+
+class Formatter {
+    public:
+        virtual ~Formatter() = default;
+        auto static constexpr right_triangle = "\ue0b0";
+        auto static constexpr right_angle = "\ue0b1";
+        auto static constexpr left_triangle = "\ue0b2";
+        auto static constexpr left_angle = "\ue0b3";
+
+        virtual std::string boldOn() const = 0;
+        virtual std::string fgColor(int color) const = 0;
+        virtual std::string bgColor(int color) const = 0;
+        virtual std::string reset() const = 0;
+
+        virtual std::string arrow_start(int fg, int bg) const = 0;
+        virtual std::string arrow_end(int fg, int bg) const = 0;
+        virtual std::string last_arrow_end(int fg) const = 0;
+};
+
+#endif
+

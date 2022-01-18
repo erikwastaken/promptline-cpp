@@ -1,9 +1,8 @@
 #include "cwd_segment.hpp"
-#include "arrows.hpp"
 #include <filesystem>
 #include <cstdlib>
 
-CwdSegment::CwdSegment(int fg, int bg) : _fg(fg), _bg(bg) {
+CwdSegment::CwdSegment(int fg, int bg, const Formatter* fmt) : _fg(fg), _bg(bg) {
     auto path = std::filesystem::current_path();
     auto home = std::filesystem::path(std::getenv("HOME"));
     if (path == home) {
@@ -24,13 +23,12 @@ CwdSegment::CwdSegment(int fg, int bg) : _fg(fg), _bg(bg) {
             break;
         }
     }
-    // bold off and dimmed color for parent directories
-    _cwd = "%b%F{" + std::to_string(_fg - 4) + "}";
+    _cwd = fmt->reset() + fmt->fgColor(_fg - 4) + fmt->bgColor(_bg);
     if (containsHome) {
         _cwd += "~";
         for (auto i = it; i != --path.end(); ++i) {
             _cwd += " ";
-            _cwd += arrows::right_angle;
+            _cwd += fmt->right_angle;
             _cwd += " ";
             _cwd += *i;
         }
@@ -40,16 +38,15 @@ CwdSegment::CwdSegment(int fg, int bg) : _fg(fg), _bg(bg) {
             if (dir == *path.begin() || dir == *(--path.end()))
                 continue;
             _cwd += " ";
-            _cwd += arrows::right_angle;
+            _cwd += fmt->right_angle;
             _cwd += " ";
             _cwd += dir;
         }
     }
     _cwd += " ";
-    _cwd += arrows::right_angle;
+    _cwd += fmt->right_angle;
     _cwd += " ";
-    // switch back Bold font and foreground color
-    _cwd += "%B%F{" + std::to_string(_fg) + "}";
+    _cwd += fmt->boldOn() + fmt->fgColor(_fg) + fmt->bgColor(_bg);
     _cwd += *(--path.end());
 }
     

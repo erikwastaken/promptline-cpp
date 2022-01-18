@@ -1,7 +1,6 @@
 #include "prompt.hpp"
-#include "arrows.hpp"
 
-Prompt::Prompt(const Segment *root) : _root(root) {}
+Prompt::Prompt(const Segment *root, const Formatter* fmt) : _root(root), _fmt(fmt) {}
 
 std::string Prompt::left() const {
     auto current = _root;
@@ -11,9 +10,8 @@ std::string Prompt::left() const {
             current = current->next();
             continue;
         }
-        result += arrows::arrow_start(current->fg(), current->bg());
+        result += _fmt->arrow_start(current->fg(), current->bg());
         result += current->get();
-        //result += (current->next() == nullptr) ? arrows::last_arrow_end(current->bg()) : arrows::arrow_end(current->bg(), current->next()->bg());
         result += arrowEnd(current, current->bg());
         current = current->next();
     }
@@ -22,8 +20,8 @@ std::string Prompt::left() const {
 
 std::string Prompt::arrowEnd(const Segment *seg, int fg) const {
     if (seg->next() == nullptr)
-        return arrows::last_arrow_end(fg);
+        return _fmt->last_arrow_end(fg);
     if (seg->next()->empty())
         return arrowEnd(seg->next(), fg);
-    return arrows::arrow_end(fg, seg->next()->bg());
+    return _fmt->arrow_end(fg, seg->next()->bg());
 }

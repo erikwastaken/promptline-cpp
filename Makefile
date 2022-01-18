@@ -1,4 +1,4 @@
-CPPFLAGS= -g -Wall -Wextra -Wno-unused -Werror -pedantic -std=c++20 -Iinclude -Ilib
+CPPFLAGS= -g -Wall -Wextra -Werror -pedantic -std=c++20 -Iinclude -Ilib
 
 SRCS=$(wildcard src/*.cpp)
 OBJS=$(subst .cpp,.o,$(SRCS))

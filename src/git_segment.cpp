@@ -3,15 +3,15 @@
 #include <cstdlib>
 #include <filesystem>
 
-GitSegment::GitSegment(int fg, int bg) : _fg(fg), _bg(bg) {
+GitSegment::GitSegment(int fg, int bg, const Formatter* fmt) : _fg(fg), _bg(bg) {
     auto out = Command("git rev-parse --abbrev-ref HEAD").output();
     if (out.empty())
         return;
-    _branch += "%b";
+    _branch += fmt->reset() + fmt->fgColor(fg) + fmt->bgColor(bg);
     _branch += "\ue0a0";
     _branch += " ";
     _branch += out;
-    _branch += "%B";
+    _branch += fmt->boldOn();
 }
 
 std::string GitSegment::get() const {

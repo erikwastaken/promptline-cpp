@@ -2,10 +2,11 @@
 #define POWERLINEPP_GIT_SEGMENT_HPP
 
 #include "segment.hpp"
+#include "formatter.hpp"
 
 class GitSegment : public Segment {
     public:
-        GitSegment(int fg, int bg);
+        GitSegment(int fg, int bg, const Formatter* fmt);
         virtual std::string get() const override;
         virtual int fg() const override { return _fg; };
         virtual int bg() const override { return _bg; };

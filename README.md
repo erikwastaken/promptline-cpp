@@ -2,10 +2,11 @@
 A minimalist implementation of terminal powerline in modern C++
 
 ## How to use
-Currently only supports zsh.
+Currently only supports zsh and bash.
 
 Build the executable powerline-cpp via the Makefile. Requires C++20.
 
+### zsh
 Add the following to your .zshrc and replace [path/to/powerline-cpp/executable] with the corresponding path
 ```zsh
 autoload -U colors
@@ -26,5 +27,17 @@ function install_powerline_precmd() {
 
 if [ -f [path/to/powerline-cpp/executable] ]; then
     install_powerline_precmd
+fi
+```
+
+### bash
+Add the following to your .bashrc and replace [path/to/powerline-cpp/executable] with the corresponding path
+```bash
+function _update_prompt() {
+    PS1="$([path/to/powerline-cpp/executable] "$?")"
+}
+
+if [ -f "[path/to/powerline-cpp/executable]" ]; then
+    PROMPT_COMMAND="_update_prompt; $PROMPT_COMMAND"
 fi
 ```

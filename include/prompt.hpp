@@ -2,14 +2,16 @@
 #define POWERLINEPP_PROMPT_HPP
 
 #include "segment.hpp"
+#include "formatter.hpp"
 
 class Prompt {
     public:
-        explicit Prompt(const Segment *root);
+        explicit Prompt(const Segment *root, const Formatter* fmt);
         std::string left() const;
         std::string arrowEnd(const Segment *seg, int fg) const;
     private:
         const Segment *_root;
+        const Formatter* _fmt;
 };
 
 #endif
