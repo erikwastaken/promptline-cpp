@@ -25,6 +25,8 @@ int main(int argc, char* argv[]) {
             fmt = std::make_unique<BashFormatter>();
         else
             fmt = std::make_unique<ZshFormatter>();
+    } else {
+        return 1;
     }
 
     auto user_seg = UserSegment(255, 31);
