@@ -4,14 +4,13 @@ A minimalist implementation of terminal powerline in modern C++
 ## How to use
 Currently only supports zsh and bash.
 
+Uses ANSI escape sequences.
+
 Build the executable powerline-cpp via the Makefile. Requires C++20.
 
 ### zsh
 Add the following to your .zshrc and replace [path/to/powerline-cpp/executable] with the corresponding path
 ```zsh
-autoload -U colors
-colors
-
 function powerline_precmd() {
     PS1=$([path/to/powerline-cpp/executable] "$?")
 }
