@@ -31,36 +31,40 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     
-    auto config = argc == 3 ? ConfigParser(argv[2]).config() : std::unordered_map<std::string, std::pair<int,int>>();
+    try {
+        const auto config = argc == 3 ? ConfigParser(argv[2]).config() : std::unordered_map<std::string, std::pair<int,int>>();
+        // create default segments and overwrite them with config if available
+        auto user_seg = UserSegment(255, 31);
+        if (config.contains("user"))
+            user_seg = UserSegment(config.at("user").first, config.at("user").second);
+        auto cwd_seg = CwdSegment(255, 241, fmt.get());
+        if (config.contains("cwd"))
+            cwd_seg = CwdSegment(config.at("cwd").first, config.at("cwd").second, fmt.get());
+        auto git_seg = GitSegment(255, 238, fmt.get());
+        if (config.contains("git"))
+            git_seg = GitSegment(config.at("git").first, config.at("git").second, fmt.get());
+        auto rc = std::atoi(argv[1]);
+        auto rc_seg = RcSegment(255, 88, rc);
+        if (config.contains("exit-code"))
+            rc_seg = RcSegment(config.at("exit-code").first, config.at("exit-code").second, rc);
+        auto venv_seg = VenvSegment(255, 38);
+        if (config.contains("virtual-environment"))
+            venv_seg = VenvSegment(config.at("virtual-environment").first, config.at("virtual-environment").second);
+        auto ssh_seg = SshHostSegment(255,208);
+        if (config.contains("ssh"))
+            ssh_seg = SshHostSegment(config.at("ssh").first, config.at("ssh").second);
 
-    // create default segments and overwrite them with config if available
-    auto user_seg = UserSegment(255, 31);
-    if (config.contains("user"))
-        user_seg = UserSegment(config["user"].first, config["user"].second);
-    auto cwd_seg = CwdSegment(255, 241, fmt.get());
-    if (config.contains("user"))
-        cwd_seg = CwdSegment(config["cwd"].first, config["cwd"].second, fmt.get());
-    auto git_seg = GitSegment(255, 238, fmt.get());
-    if (config.contains("user"))
-        git_seg = GitSegment(config["git"].first, config["git"].second, fmt.get());
-    auto rc = std::atoi(argv[1]);
-    auto rc_seg = RcSegment(255, 88, rc);
-    if (config.contains("user"))
-        rc_seg = RcSegment(config["exit-code"].first, config["exit-code"].second, rc);
-    auto venv_seg = VenvSegment(255, 38);
-    if (config.contains("user"))
-        venv_seg = VenvSegment(config["virtual-environment"].first, config["virtual-environment"].second);
-    auto ssh_seg = SshHostSegment(255,208);
-    if (config.contains("user"))
-        ssh_seg = SshHostSegment(255,208);
+        rc_seg.next(&ssh_seg);
+        ssh_seg.next(&user_seg);
+        user_seg.next(&venv_seg);
+        venv_seg.next(&git_seg);
+        git_seg.next(&cwd_seg);
 
-    rc_seg.next(&ssh_seg);
-    ssh_seg.next(&user_seg);
-    user_seg.next(&venv_seg);
-    venv_seg.next(&git_seg);
-    git_seg.next(&cwd_seg);
-
-    auto prompt = Prompt(&rc_seg, fmt.get());
-    std::cout << prompt.left() << " ";
-    return 0;
+        auto prompt = Prompt(&rc_seg, fmt.get());
+        std::cout << prompt.left() << " ";
+        return 0;
+    } catch (ParserError& e) {
+        std::cerr << "Config file not found\n";
+        return 1;
+    }
 }

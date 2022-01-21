@@ -13,7 +13,7 @@ class ConfigParser {
     public:
         ConfigParser(const std::string &path = "colors.toml");
         ~ConfigParser();
-        std::unordered_map<std::string, std::pair<int,int>> config();
+        const std::unordered_map<std::string, std::pair<int,int>> config();
 
     private:
         std::fstream _fs;
