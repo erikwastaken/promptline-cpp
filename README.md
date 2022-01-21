@@ -71,4 +71,5 @@ foreground=255
 background=208
 ```
 If a segment is not specified, it's default foreground and background color
-will be used.
+will be used. If no config file is specified as the second command line argument
+all segments will have their default colors.
