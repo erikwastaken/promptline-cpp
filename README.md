@@ -40,3 +40,35 @@ if [ -f "[path/to/powerline-cpp/executable]" ]; then
     PROMPT_COMMAND="_update_prompt; $PROMPT_COMMAND"
 fi
 ```
+
+## Customization
+For each segment, the foreground and background color may be specified in a .toml
+file. The path to this file should be passed as the second command line argument
+in the .zshrc or .bashrc. Here is an example:
+```toml
+[user]
+foreground=255
+background=31
+
+[cwd]
+foreground=255
+background=241
+
+[git]
+foreground=255
+background=238
+
+[exit-code]
+foreground=255
+background=88
+
+[virtual-environment]
+foreground=255
+background=38
+
+[ssh]
+foreground=255
+background=208
+```
+If a segment is not specified, it's default foreground and background color
+will be used.
