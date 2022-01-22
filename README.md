@@ -43,8 +43,7 @@ fi
 
 ## Customization
 For each segment, the foreground and background color may be specified in a .toml
-file. The path to this file should be passed as the second command line argument
-in the .zshrc or .bashrc. Here is an example:
+file. This file should be placed in $HOME/.config/powerline-cpp/colors.toml
 ```toml
 [user]
 foreground=255
@@ -71,5 +70,4 @@ foreground=255
 background=208
 ```
 If a segment is not specified, it's default foreground and background color
-will be used. If no config file is specified as the second command line argument
-all segments will have their default colors.
+will be used. If no config file is found, all segments will have their default colors.
