@@ -1,12 +1,15 @@
 #include "config.hpp"
+#include <filesystem>
+#include <cstdlib>
 
-Config::Config() { }
-
-Config::Config(const std::string &path) {
-    try {
-        _config = ConfigParser(path).config();
-    } catch (ParserError &e) {
-        Config();
+Config::Config() {
+    auto home = std::getenv("HOME");
+    auto path = std::filesystem::path(home);
+    path /= ".config/powerline-cpp/colors.toml";
+    if (std::filesystem::exists(path)) {
+        try {
+            _config = ConfigParser(path.string()).config();
+        } catch (ParserError &e) {}
     }
 }
 

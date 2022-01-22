@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     
-    const auto config = argc == 3 ? Config(argv[2]) : Config();
+    const auto config = Config();
     auto user_seg = UserSegment(config.fg("user"), config.bg("user"));
     auto cwd_seg = CwdSegment(config.fg("cwd"), config.bg("cwd"), fmt.get());
     auto git_seg = GitSegment(config.fg("git"), config.bg("git"), fmt.get());

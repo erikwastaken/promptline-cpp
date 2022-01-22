@@ -10,7 +10,6 @@
 class Config {
     public:
         Config();
-        explicit Config(const std::string &path);
         int fg(const std::string &segmentName) const;
         int bg(const std::string &segmentName) const;
     private:
