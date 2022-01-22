@@ -13,7 +13,7 @@
 #include "formatter.hpp"
 #include "zsh_formatter.hpp"
 #include "bash_formatter.hpp"
-#include "config_parser.hpp"
+#include "config.hpp"
 
 // expects error code of last command as first parameter
 // expects path to config file as second parameter
@@ -31,40 +31,22 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     
-    try {
-        const auto config = argc == 3 ? ConfigParser(argv[2]).config() : std::unordered_map<std::string, std::pair<int,int>>();
-        // create default segments and overwrite them with config if available
-        auto user_seg = UserSegment(255, 31);
-        if (config.contains("user"))
-            user_seg = UserSegment(config.at("user").first, config.at("user").second);
-        auto cwd_seg = CwdSegment(255, 241, fmt.get());
-        if (config.contains("cwd"))
-            cwd_seg = CwdSegment(config.at("cwd").first, config.at("cwd").second, fmt.get());
-        auto git_seg = GitSegment(255, 238, fmt.get());
-        if (config.contains("git"))
-            git_seg = GitSegment(config.at("git").first, config.at("git").second, fmt.get());
-        auto rc = std::atoi(argv[1]);
-        auto rc_seg = RcSegment(255, 88, rc);
-        if (config.contains("exit-code"))
-            rc_seg = RcSegment(config.at("exit-code").first, config.at("exit-code").second, rc);
-        auto venv_seg = VenvSegment(255, 38);
-        if (config.contains("virtual-environment"))
-            venv_seg = VenvSegment(config.at("virtual-environment").first, config.at("virtual-environment").second);
-        auto ssh_seg = SshHostSegment(255,208);
-        if (config.contains("ssh"))
-            ssh_seg = SshHostSegment(config.at("ssh").first, config.at("ssh").second);
+    const auto config = argc == 3 ? Config(argv[2]) : Config();
+    auto user_seg = UserSegment(config.fg("user"), config.bg("user"));
+    auto cwd_seg = CwdSegment(config.fg("cwd"), config.bg("cwd"), fmt.get());
+    auto git_seg = GitSegment(config.fg("git"), config.bg("git"), fmt.get());
+    auto rc = std::atoi(argv[1]);
+    auto rc_seg = RcSegment(config.fg("exit-code"), config.bg("exit-code"), rc);
+    auto venv_seg = VenvSegment(config.fg("virtual-environment"), config.bg("virtual-environment"));
+    auto ssh_seg = SshHostSegment(config.fg("ssh"), config.bg("ssh"));
 
-        rc_seg.next(&ssh_seg);
-        ssh_seg.next(&user_seg);
-        user_seg.next(&venv_seg);
-        venv_seg.next(&git_seg);
-        git_seg.next(&cwd_seg);
+    rc_seg.next(&ssh_seg);
+    ssh_seg.next(&user_seg);
+    user_seg.next(&venv_seg);
+    venv_seg.next(&git_seg);
+    git_seg.next(&cwd_seg);
 
-        auto prompt = Prompt(&rc_seg, fmt.get());
-        std::cout << prompt.left() << " ";
-        return 0;
-    } catch (ParserError& e) {
-        std::cerr << "Config file not found\n";
-        return 1;
-    }
+    auto prompt = Prompt(&rc_seg, fmt.get());
+    std::cout << prompt.left() << " ";
+    return 0;
 }
