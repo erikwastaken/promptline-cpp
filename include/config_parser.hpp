@@ -17,7 +17,6 @@ class ConfigParser {
 
     private:
         std::fstream _fs;
-        std::unordered_map<std::string, std::pair<int,int>> _config;
 };
 
 #endif

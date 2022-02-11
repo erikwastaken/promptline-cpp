@@ -11,6 +11,7 @@ ConfigParser::~ConfigParser() {
 }
 
 const std::unordered_map<std::string, std::pair<int,int>> ConfigParser::config() {
+    std::unordered_map<std::string, std::pair<int,int>> config;
     auto key = std::string();
     auto foreground = 0;
     auto background = 0;
@@ -22,9 +23,9 @@ const std::unordered_map<std::string, std::pair<int,int>> ConfigParser::config()
         } else if (line.starts_with("background")) {
             background = std::stoi(line.substr(11));
         } else {
-            _config[key] = std::make_pair(foreground, background);
+            config[key] = std::make_pair(foreground, background);
         }
     }
-    _config[key] = std::make_pair(foreground, background);
-    return _config;
+    config[key] = std::make_pair(foreground, background);
+    return config;
 }
