@@ -8,6 +8,8 @@ Uses ANSI escape sequences.
 
 Build the executable powerline-cpp via the Makefile. Requires C++20.
 
+By default the make install command will try to put the executable into /usr/local/bin.
+
 ### zsh
 Add the following to your .zshrc and replace [path/to/powerline-cpp/executable] with the corresponding path
 ```zsh
