@@ -8,5 +8,9 @@ all: powerline-cpp
 powerline-cpp: $(OBJS)
 	$(CXX) $^ -o $@
 
+install: powerline-cpp
+	$(RM) /usr/local/bin/powerline-cpp
+	cp powerline-cpp /usr/local/bin
+
 clean:
 	$(RM) $(OBJS) powerline-cpp
