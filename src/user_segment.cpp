@@ -1,7 +1,7 @@
 #include "user_segment.hpp"
 #include <cstdlib>
 
-UserSegment::UserSegment(int fg, int bg) : _fg(fg), _bg(bg) {
+UserSegment::UserSegment(int fg, int bg) : Segment(fg,bg) {
     if (auto user = std::getenv("USER"))
         _user = user;
     else _user = "%n";

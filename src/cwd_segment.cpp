@@ -2,7 +2,7 @@
 #include <filesystem>
 #include <cstdlib>
 
-CwdSegment::CwdSegment(int fg, int bg, const Formatter* fmt) : _fg(fg), _bg(bg) {
+CwdSegment::CwdSegment(int fg, int bg, const Formatter* fmt) : Segment(fg,bg) {
     auto path = std::filesystem::current_path();
     auto home = std::filesystem::path(std::getenv("HOME"));
     if (path == home) {
@@ -23,7 +23,7 @@ CwdSegment::CwdSegment(int fg, int bg, const Formatter* fmt) : _fg(fg), _bg(bg) 
             break;
         }
     }
-    _cwd = fmt->reset() + fmt->fgColor(_fg - 4) + fmt->bgColor(_bg);
+    _cwd = fmt->reset() + fmt->fgColor(Segment::fg() - 4) + fmt->bgColor(Segment::bg());
     if (containsHome) {
         _cwd += "~";
         for (auto i = it; i != --path.end(); ++i) {
@@ -46,7 +46,7 @@ CwdSegment::CwdSegment(int fg, int bg, const Formatter* fmt) : _fg(fg), _bg(bg) 
     _cwd += " ";
     _cwd += fmt->right_angle;
     _cwd += " ";
-    _cwd += fmt->boldOn() + fmt->fgColor(_fg) + fmt->bgColor(_bg);
+    _cwd += fmt->boldOn() + fmt->fgColor(Segment::fg()) + fmt->bgColor(Segment::bg());
     _cwd += *(--path.end());
 }
     

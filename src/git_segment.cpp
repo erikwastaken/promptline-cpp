@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <filesystem>
 
-GitSegment::GitSegment(int fg, int bg, const Formatter* fmt) : _fg(fg), _bg(bg) {
+GitSegment::GitSegment(int fg, int bg, const Formatter* fmt) : Segment(fg,bg) {
     auto out = Command("git rev-parse --abbrev-ref HEAD").output();
     if (out.empty())
         return;

@@ -1,7 +1,7 @@
 #include "ssh_host_segment.hpp"
 
 
-SshHostSegment::SshHostSegment(int fg, int bg) : _fg(fg), _bg(bg) {
+SshHostSegment::SshHostSegment(int fg, int bg) : Segment(fg,bg) {
     if (auto host = std::getenv("HOSTNAME"))
         _hostName = host;
 }
