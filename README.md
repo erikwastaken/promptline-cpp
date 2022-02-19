@@ -11,10 +11,13 @@ Build the executable powerline-cpp via the Makefile. Requires C++20.
 By default the make install command will try to put the executable into /usr/local/bin.
 
 ### zsh
-Add the following to your .zshrc and replace [path/to/powerline-cpp/executable] with the corresponding path
+Add the following to your .zshrc and replace [path/to/powerline-cpp/executable] with the corresponding path.
+If you a prompt on the right-hand side is not desired, simply leave out the
+RPS1 line.
 ```zsh
 function powerline_precmd() {
     PS1=$([path/to/powerline-cpp/executable] "$?")
+    RPS1=$([path/to/powerline-cpp/executable] "$?" --right)
 }
 
 function install_powerline_precmd() {
