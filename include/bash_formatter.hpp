@@ -20,6 +20,19 @@ class BashFormatter : public Formatter {
         virtual std::string last_arrow_end(int fg) const override {
             return " " + reset() + fgColor(fg) + right_triangle + reset();
         }
+
+        virtual std::string right_arrow_start(int fg, int bg) const override {
+            return fgColor(bg) + right_triangle + fgColor(fg) + bgColor(bg) + boldOn() + " ";
+        }
+
+        virtual std::string right_arrow_end() const override {
+            return " " + reset();
+        }
+
+        virtual std::string right_last_arrow_end() const override {
+            return " " + reset();
+        }
+
 };
 
 #endif

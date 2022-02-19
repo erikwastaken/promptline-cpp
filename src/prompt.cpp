@@ -18,10 +18,34 @@ std::string Prompt::left() const {
     return result;
 }
 
+std::string Prompt::right() const {
+    auto current = _root;
+    auto result = std::string();
+    while (current != nullptr) {
+        if (current->empty()) {
+            current = current->next();
+            continue;
+        }
+        result += _fmt->right_arrow_start(current->fg(), current->bg());
+        result += current->get();
+        result += rightArrowEnd(current);
+        current = current->next();
+    }
+    return result;
+}
+
 std::string Prompt::arrowEnd(const Segment *seg, int fg) const {
     if (seg->next() == nullptr)
         return _fmt->last_arrow_end(fg);
     if (seg->next()->empty())
         return arrowEnd(seg->next(), fg);
     return _fmt->arrow_end(fg, seg->next()->bg());
+}
+
+std::string Prompt::rightArrowEnd(const Segment *seg) const {
+    if (seg->next() == nullptr)
+        return _fmt->right_last_arrow_end();
+    if (seg->next()->empty())
+        return rightArrowEnd(seg->next());
+    return _fmt->right_arrow_end();
 }

@@ -4,6 +4,7 @@
 #include "formatter.hpp"
 
 class ZshFormatter : public Formatter {
+
     public:
         ZshFormatter() = default;
         virtual std::string boldOn() const override { return "%{\033[1m%}"; };
@@ -14,12 +15,27 @@ class ZshFormatter : public Formatter {
         virtual std::string arrow_start(int fg, int bg) const override {
             return fgColor(fg) + bgColor(bg) + boldOn() + " ";
         }
+        
         virtual std::string arrow_end(int fg, int bg) const override {
             return " " + reset() + fgColor(fg) + bgColor(bg) + right_triangle + reset();
         }
+
+        virtual std::string right_arrow_start(int fg, int bg) const override {
+            return fgColor(bg) + left_triangle + fgColor(fg) + bgColor(bg) + boldOn() + " ";
+        }
+
+        virtual std::string right_arrow_end() const override {
+            return " ";
+        }
+
+        virtual std::string right_last_arrow_end() const override {
+            return " " + reset();
+        }
+
         virtual std::string last_arrow_end(int fg) const override {
             return " " + reset() + fgColor(fg) + right_triangle + reset();
         }
+
 };
 
 #endif

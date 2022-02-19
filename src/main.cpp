@@ -9,15 +9,26 @@
 #include "rc_segment.hpp"
 #include "virtualenv_segment.hpp"
 #include "ssh_host_segment.hpp"
+#include "time_segment.hpp"
 #include "prompt.hpp"
 #include "formatter.hpp"
 #include "zsh_formatter.hpp"
 #include "bash_formatter.hpp"
 #include "config.hpp"
 
+bool leftPrompt(int argc, char* argv[]) {
+    if (argc == 2) return true;
+    for (auto i=0; i != argc; ++i) {
+        if (strcmp(argv[i], "--right") == 0)
+            return false;
+    }
+    return true;
+}
+
 // expects error code of last command as first parameter
 // expects path to config file as second parameter
 int main(int argc, char* argv[]) {
+
     if (argc < 2)
         return 1;
 
@@ -30,23 +41,29 @@ int main(int argc, char* argv[]) {
     } else {
         return 1;
     }
-    
+
     const auto config = Config();
-    auto user_seg = UserSegment(config.fg("user"), config.bg("user"));
-    auto cwd_seg = CwdSegment(config.fg("cwd"), config.bg("cwd"), fmt.get());
-    auto git_seg = GitSegment(config.fg("git"), config.bg("git"), fmt.get());
-    auto rc = std::atoi(argv[1]);
-    auto rc_seg = RcSegment(config.fg("exit-code"), config.bg("exit-code"), rc);
-    auto venv_seg = VenvSegment(config.fg("virtual-environment"), config.bg("virtual-environment"));
-    auto ssh_seg = SshHostSegment(config.fg("ssh"), config.bg("ssh"));
+    if (leftPrompt(argc, argv)) {
+        auto user_seg = UserSegment(config.fg("user"), config.bg("user"));
+        auto cwd_seg = CwdSegment(config.fg("cwd"), config.bg("cwd"), fmt.get());
+        auto git_seg = GitSegment(config.fg("git"), config.bg("git"), fmt.get());
+        auto rc = std::atoi(argv[1]);
+        auto rc_seg = RcSegment(config.fg("exit-code"), config.bg("exit-code"), rc);
+        auto venv_seg = VenvSegment(config.fg("virtual-environment"), config.bg("virtual-environment"));
+        auto ssh_seg = SshHostSegment(config.fg("ssh"), config.bg("ssh"));
 
-    rc_seg.next(&ssh_seg);
-    ssh_seg.next(&user_seg);
-    user_seg.next(&venv_seg);
-    venv_seg.next(&git_seg);
-    git_seg.next(&cwd_seg);
+        rc_seg.next(&ssh_seg);
+        ssh_seg.next(&user_seg);
+        user_seg.next(&venv_seg);
+        venv_seg.next(&git_seg);
+        git_seg.next(&cwd_seg);
+        auto prompt = Prompt(&rc_seg, fmt.get());
+        std::cout << prompt.left() << " ";
+        return 0;
+    }
 
-    auto prompt = Prompt(&rc_seg, fmt.get());
-    std::cout << prompt.left() << " ";
+    auto time_seg = TimeSegment(config.fg("user"), config.bg("user"));
+    auto prompt = Prompt(&time_seg, fmt.get());
+    std::cout << prompt.right();
     return 0;
 }
