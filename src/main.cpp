@@ -58,12 +58,12 @@ int main(int argc, char* argv[]) {
         venv_seg.next(&git_seg);
         git_seg.next(&cwd_seg);
         auto prompt = Prompt(&rc_seg, fmt.get());
-        std::cout << prompt.left() << " ";
+        prompt.left(std::cout);
         return 0;
     }
 
     auto time_seg = TimeSegment(config.fg("user"), config.bg("user"));
     auto prompt = Prompt(&time_seg, fmt.get());
-    std::cout << prompt.right();
+    prompt.right(std::cout);
     return 0;
 }
