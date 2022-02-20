@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    auto time_seg = TimeSegment(config.fg("user"), config.bg("user"));
+    auto time_seg = TimeSegment(config.fg("time"), config.bg("time"));
     auto prompt = Prompt(&time_seg, fmt.get());
     prompt.right(std::cout);
     return 0;

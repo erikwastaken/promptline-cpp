@@ -19,7 +19,8 @@ class Config {
             {"git", {255,238}},
             {"exit-code", {255,88}},
             {"virtual-environment", {255,38}},
-            {"ssh", {255,208}}
+            {"ssh", {255,208}},
+            {"time", {255,31}}
         };
         std::unordered_map<std::string, std::pair<int, int>> _config {};
 };
