@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <memory>
 #include <string>
+#include <cstring>
 #include "user_segment.hpp"
 #include "cwd_segment.hpp"
 #include "git_segment.hpp"
