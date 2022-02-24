@@ -2,7 +2,7 @@
 
 
 SshHostSegment::SshHostSegment(int fg, int bg) : Segment(fg,bg) {
-    if (auto host = std::getenv("HOSTNAME"))
+    if (auto host = std::getenv("SSH_CLIENT"))
         _hostName = host;
 }
 
