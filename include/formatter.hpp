@@ -20,6 +20,8 @@ class Formatter {
         virtual std::string right_arrow_start(int fg, int bg) const = 0;
         virtual std::string right_arrow_end() const = 0;
         virtual std::string right_last_arrow_end() const = 0;
+
+        virtual std::string hostname() const = 0;
 };
 
 #endif

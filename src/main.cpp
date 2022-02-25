@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
         auto rc = std::atoi(argv[1]);
         auto rc_seg = RcSegment(config.fg("exit-code"), config.bg("exit-code"), rc);
         auto venv_seg = VenvSegment(config.fg("virtual-environment"), config.bg("virtual-environment"));
-        auto ssh_seg = SshHostSegment(config.fg("ssh"), config.bg("ssh"));
+        auto ssh_seg = SshHostSegment(config.fg("ssh"), config.bg("ssh"), fmt.get());
 
         rc_seg.next(&ssh_seg);
         ssh_seg.next(&user_seg);

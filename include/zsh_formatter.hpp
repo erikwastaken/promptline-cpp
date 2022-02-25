@@ -36,6 +36,9 @@ class ZshFormatter : public Formatter {
             return " " + reset() + fgColor(fg) + right_triangle + reset();
         }
 
+        virtual std::string hostname() const override {
+            return "%m";
+        }
 };
 
 #endif

@@ -33,6 +33,9 @@ class BashFormatter : public Formatter {
             return " " + reset();
         }
 
+        virtual std::string hostname() const override {
+            return "\\H";
+        }
 };
 
 #endif

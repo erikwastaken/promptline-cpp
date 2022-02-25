@@ -2,10 +2,11 @@
 #define POWERLINEPP_SSH_HOST_HPP
 
 #include "segment.hpp"
+#include "formatter.hpp"
 
 class SshHostSegment : public Segment {
     public:
-        SshHostSegment(int fg, int bg);
+        SshHostSegment(int fg, int bg, Formatter* fmt);
         virtual std::string get() const override;
         virtual void next(const Segment *n) override { _next = n; };
         virtual const Segment* next() const override { return _next; };

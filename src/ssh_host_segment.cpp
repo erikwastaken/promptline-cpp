@@ -1,9 +1,9 @@
 #include "ssh_host_segment.hpp"
 
 
-SshHostSegment::SshHostSegment(int fg, int bg) : Segment(fg,bg) {
+SshHostSegment::SshHostSegment(int fg, int bg, Formatter* fmt) : Segment(fg,bg) {
     if (std::getenv("SSH_CLIENT")) {
-        _hostName += "\\H";
+        _hostName += fmt->hostname();
     }
 }
 
