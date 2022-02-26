@@ -1,8 +1,8 @@
 # powerline-cpp
-A minimalist implementation of terminal powerline in modern C++
+A minimalist implementation of a powerline style prompt in modern C++
 
 ## How to use
-Currently only supports zsh and bash.
+Currently supports zsh and bash.
 
 Uses ANSI escape sequences.
 
