@@ -16,6 +16,7 @@
 #include "zsh_formatter.hpp"
 #include "bash_formatter.hpp"
 #include "config.hpp"
+#include "version.h"
 
 bool leftPrompt(int argc, char* argv[]) {
     if (argc == 2) return true;
@@ -30,8 +31,10 @@ bool leftPrompt(int argc, char* argv[]) {
 // expects path to config file as second parameter
 int main(int argc, char* argv[]) {
 
-    if (argc < 2)
-        return 1;
+    if (argc < 2) {
+        std::cout << "Current version: " << POWERLINEPP_VERSION_MAJOR << "." << POWERLINEPP_VERSION_MINOR << '\n';
+        return 0;
+    }
 
     std::unique_ptr<Formatter> fmt;
     if (auto shell = std::getenv("SHELL")) {
