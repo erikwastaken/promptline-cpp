@@ -1,3 +1,6 @@
+PREFIX ?= /usr/local
+BINDIR ?= ${PREFIX}/bin
+
 CPPFLAGS= -O3 -Wall -Wextra -Werror -pedantic -std=c++20 -Iinclude -Ilib
 
 VERSION_MAJOR=1
@@ -16,8 +19,8 @@ powerline-cpp: $(OBJS)
 	$(CXX) $^ -o $@
 
 install: powerline-cpp
-	$(RM) /usr/local/bin/powerline-cpp
-	cp powerline-cpp /usr/local/bin
+	$(RM) -rf ${BINDIR}/powerline-cpp
+	cp -p powerline-cpp ${BINDIR}
 
 clean:
 	$(RM) $(OBJS) powerline-cpp
