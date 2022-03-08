@@ -30,7 +30,6 @@ void Prompt::left(std::ostream &os) const {
         os << arrowEnd(current, current->bg());
         current = current->next();
     }
-    os << " ";
 }
 
 std::string Prompt::right() const {
