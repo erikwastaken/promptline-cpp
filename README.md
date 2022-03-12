@@ -1,5 +1,9 @@
 # powerline-cpp
-A minimalist implementation of a powerline style prompt in modern C++
+A minimalist implementation of a powerline style prompt in modern C++.
+
+## Samples
+![default colors](images/default-colors.png "default colors")
+![gruvbox colors](images/gruvbox-colors.png "gruvbox colors")
 
 ## How to use
 Currently supports zsh and bash.
@@ -48,31 +52,8 @@ fi
 
 ## Customization
 For each segment, the foreground and background color may be specified in a .toml
-file. This file should be placed in $HOME/.config/powerline-cpp/colors.toml
-```toml
-[user]
-foreground=255
-background=31
+file. This file should be placed in $HOME/.config/powerline-cpp/colors.toml. As
+a reference, checkout the .toml files in the colors directory.
 
-[cwd]
-foreground=255
-background=241
-
-[git]
-foreground=255
-background=238
-
-[exit-code]
-foreground=255
-background=88
-
-[virtual-environment]
-foreground=255
-background=38
-
-[ssh]
-foreground=255
-background=208
-```
 If a segment is not specified, it's default foreground and background color
 will be used. If no config file is found, all segments will have their default colors.

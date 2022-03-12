@@ -1,6 +1,4 @@
 tags
 powerline-cpp
-suite
 *.o
 *.swp
-*.toml
