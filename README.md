@@ -2,7 +2,10 @@
 A minimalist implementation of a powerline style prompt in modern C++.
 
 ## Samples
+Default:
 ![default colors](images/default-colors.png "default colors")
+
+gruvbox:
 ![gruvbox colors](images/gruvbox-colors.png "gruvbox colors")
 
 ## How to use
