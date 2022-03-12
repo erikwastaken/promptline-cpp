@@ -7,6 +7,7 @@ Default:
 
 gruvbox:
 ![gruvbox colors](images/gruvbox-colors.png "gruvbox colors")
+![gruvbox with ssh segment](images/gruvbox-with-ssh.png "gruvbox with ssh segment")
 
 ## How to use
 Currently supports zsh and bash.
