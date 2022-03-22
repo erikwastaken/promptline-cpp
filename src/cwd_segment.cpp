@@ -23,7 +23,7 @@ CwdSegment::CwdSegment(int fg, int bg, const Formatter* fmt) : Segment(fg,bg) {
             break;
         }
     }
-    _cwd = fmt->reset() + fmt->fgColor(Segment::fg() - 4) + fmt->bgColor(Segment::bg());
+    _cwd = fmt->reset() + fmt->fgColor(Segment::fg()) + fmt->bgColor(Segment::bg());
     if (containsHome) {
         _cwd += "~";
         for (auto i = it; i != --path.end(); ++i) {
