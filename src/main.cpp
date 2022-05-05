@@ -16,7 +16,7 @@
 #include "zsh_formatter.hpp"
 #include "bash_formatter.hpp"
 #include "config.hpp"
-#include "version.h"
+#include "version.hpp"
 
 bool leftPrompt(int argc, char* argv[]) {
     if (argc == 2) return true;
