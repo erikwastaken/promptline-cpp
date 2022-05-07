@@ -1,6 +1,8 @@
 #ifndef POWERLINEPP_FORMATTER_HPP
 #define POWERLINEPP_FORMATTER_HPP
 
+#include <string>
+
 class Formatter {
     public:
         virtual ~Formatter() = default;

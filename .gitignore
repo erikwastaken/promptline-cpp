@@ -1,4 +1,3 @@
 tags
-powerline-cpp
-*.o
-*.swp
+build*
+.cache

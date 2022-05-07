@@ -1,7 +1,9 @@
 # powerline-cpp
+
 A minimalist implementation of a powerline style prompt in modern C++.
 
 ## Samples
+
 Default:
 ![default colors](images/default-colors.png "default colors")
 
@@ -10,15 +12,15 @@ gruvbox:
 ![gruvbox with ssh segment](images/gruvbox-with-ssh.png "gruvbox with ssh segment")
 
 ## How to use
+
 Currently supports zsh and bash.
 
 Uses ANSI escape sequences.
 
-Build the executable powerline-cpp via the Makefile. Requires C++20.
-
-By default the make install command will try to put the executable into /usr/local/bin.
+Build with CMake.
 
 ### zsh
+
 Add the following to your .zshrc and replace [path/to/powerline-cpp/executable] with the corresponding path.
 If a prompt on the right-hand side is not desired, simply leave out the
 RPS1 line.
@@ -43,6 +45,7 @@ fi
 ```
 
 ### bash
+
 Add the following to your .bashrc and replace [path/to/powerline-cpp/executable] with the corresponding path
 ```bash
 function _update_prompt() {
@@ -55,6 +58,7 @@ fi
 ```
 
 ## Customization
+
 For each segment, the foreground and background color may be specified in a .toml
 file. This file should be placed in $HOME/.config/powerline-cpp/colors.toml. As
 a reference, checkout the .toml files in the colors directory.

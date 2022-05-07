@@ -6,7 +6,7 @@ UserSegment::UserSegment(int fg, int bg) : Segment(fg,bg) {
         _user = user;
     else _user = "%n";
 }
-    
+
 std::string UserSegment::get() const {
     return _user;
     //auto result = arrow_start(_fg,_bg);
