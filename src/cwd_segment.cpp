@@ -49,7 +49,7 @@ CwdSegment::CwdSegment(int fg, int bg, const Formatter* fmt) : Segment(fg,bg) {
     _cwd += fmt->boldOn() + fmt->fgColor(Segment::fg()) + fmt->bgColor(Segment::bg());
     _cwd += *(--path.end());
 }
-    
+
 std::string CwdSegment::get() const {
     return _cwd;
 }

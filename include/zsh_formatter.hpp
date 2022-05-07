@@ -15,7 +15,7 @@ class ZshFormatter : public Formatter {
         virtual std::string arrow_start(int fg, int bg) const override {
             return fgColor(fg) + bgColor(bg) + boldOn() + " ";
         }
-        
+
         virtual std::string arrow_end(int fg, int bg) const override {
             return " " + reset() + fgColor(fg) + bgColor(bg) + right_triangle + reset();
         }
