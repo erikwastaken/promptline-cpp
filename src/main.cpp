@@ -32,7 +32,13 @@ bool leftPrompt(int argc, char* argv[]) {
 int main(int argc, char* argv[]) {
 
     if (argc < 2) {
-        std::cout << "Current version: " << POWERLINEPP_VERSION_MAJOR << "." << POWERLINEPP_VERSION_MINOR << '\n';
+        std::cout << "Current version: "
+                  << POWERLINEPP_VERSION_MAJOR
+                  << "."
+                  << POWERLINEPP_VERSION_MINOR
+                  << "."
+                  << POWERLINEPP_VERSION_PATCH
+                  << '\n';
         return 0;
     }
 

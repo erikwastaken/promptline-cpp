@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(powerline-cpp VERSION 1.1)
+project(powerline-cpp VERSION 1.1.10)
 configure_file(version.hpp.in ../include/version.hpp)
 
 set(CMAKE_CXX_STANDARD 20)
