@@ -4,10 +4,10 @@ A minimalist implementation of a powerline style prompt in modern C++.
 
 ## Samples
 
-Default:
-![default colors](images/default-colors.png "default colors")
+powerline-esque:
+![powerline colors](images/powerline-colors.png "powerline colors")
 
-gruvbox:
+gruvbox-esque:
 ![gruvbox colors](images/gruvbox-colors.png "gruvbox colors")
 ![gruvbox with ssh segment](images/gruvbox-with-ssh.png "gruvbox with ssh segment")
 
@@ -17,7 +17,7 @@ Currently supports zsh and bash.
 
 Uses ANSI escape sequences.
 
-Build with CMake.
+Build with CMake. Then `sudo make install`.
 
 ### zsh
 
@@ -58,6 +58,10 @@ fi
 ```
 
 ## Customization
+
+By default the prompt uses only ANSI color codes `000` through `015`. If the
+terminal emulator remaps these color codes via e.g. a colorscheme, this will be
+taken into account.
 
 For each segment, the foreground and background color may be specified in a .toml
 file. This file should be placed in $HOME/.config/powerline-cpp/colors.toml. As

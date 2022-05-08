@@ -1,27 +1,27 @@
 [user]
-foreground=255
-background=31
+foreground=15
+background=4
 
 [cwd]
-foreground=255
-background=241
+foreground=15
+background=8
 
 [git]
-foreground=255
-background=238
+foreground=15
+background=0
 
 [exit-code]
-foreground=255
-background=88
+foreground=15
+background=1
 
 [virtual-environment]
-foreground=255
-background=104
+foreground=15
+background=5
 
 [ssh]
-foreground=255
-background=208
+foreground=15
+background=9
 
 [time]
-foreground=255
-background=31
+foreground=15
+background=4
