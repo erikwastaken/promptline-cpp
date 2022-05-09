@@ -22,7 +22,7 @@ class Config {
             {"ssh", {15,9}},
             {"time", {15,4}}
         };
-        std::unordered_map<std::string, std::pair<int, int>> _config {};
+        std::unordered_map<std::string, std::pair<int, int>> _colors {};
 };
 
 #endif

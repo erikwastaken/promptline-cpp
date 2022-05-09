@@ -11,9 +11,9 @@ class ParserError : public std::exception { };
 
 class ConfigParser {
     public:
-        ConfigParser(const std::string &path = "colors.toml");
+        ConfigParser(const std::string &path);
         ~ConfigParser();
-        const std::unordered_map<std::string, std::pair<int,int>> config();
+        const std::unordered_map<std::string, std::pair<int,int>> colorConfig();
 
     private:
         std::fstream _fs;

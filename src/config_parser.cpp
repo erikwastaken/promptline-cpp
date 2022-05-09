@@ -10,7 +10,7 @@ ConfigParser::~ConfigParser() {
     _fs.close();
 }
 
-const std::unordered_map<std::string, std::pair<int,int>> ConfigParser::config() {
+const std::unordered_map<std::string, std::pair<int,int>> ConfigParser::colorConfig() {
     std::unordered_map<std::string, std::pair<int,int>> config;
     auto key = std::string();
     auto foreground = 0;

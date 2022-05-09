@@ -8,15 +8,15 @@ Config::Config() {
     path /= ".config/powerline-cpp/colors.toml";
     if (std::filesystem::exists(path)) {
         try {
-            _config = ConfigParser(path.string()).config();
+            _colors = ConfigParser(path.string()).colorConfig();
         } catch (ParserError &e) {}
     }
 }
 
 int Config::fg(const std::string &segmentName) const {
-    return (_config.contains(segmentName)) ? _config.at(segmentName).first : _default.at(segmentName).first;
+    return (_colors.contains(segmentName)) ? _colors.at(segmentName).first : _default.at(segmentName).first;
 }
 
 int Config::bg(const std::string &segmentName) const {
-    return (_config.contains(segmentName)) ? _config.at(segmentName).second : _default.at(segmentName).second;
+    return (_colors.contains(segmentName)) ? _colors.at(segmentName).second : _default.at(segmentName).second;
 }
