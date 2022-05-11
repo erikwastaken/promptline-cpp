@@ -1,5 +1,5 @@
-#ifndef POWERLINEPP_SSH_HOST_HPP
-#define POWERLINEPP_SSH_HOST_HPP
+#ifndef PROMPTLINE_SSH_HOST_HPP
+#define PROMPTLINE_SSH_HOST_HPP
 
 #include "segment.hpp"
 #include "formatter.hpp"

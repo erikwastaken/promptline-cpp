@@ -1,5 +1,5 @@
-#ifndef POWERLINEPP_TIME_SEGMENT_HPP
-#define POWERLINEPP_TIME_SEGMENT_HPP
+#ifndef PROMPTLINE_TIME_SEGMENT_HPP
+#define PROMPTLINE_TIME_SEGMENT_HPP
 
 #include "segment.hpp"
 #include <chrono>

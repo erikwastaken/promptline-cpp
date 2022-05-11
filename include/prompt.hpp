@@ -1,5 +1,5 @@
-#ifndef POWERLINEPP_PROMPT_HPP
-#define POWERLINEPP_PROMPT_HPP
+#ifndef PROMPTLINE_PROMPT_HPP
+#define PROMPTLINE_PROMPT_HPP
 
 #include "segment.hpp"
 #include "formatter.hpp"

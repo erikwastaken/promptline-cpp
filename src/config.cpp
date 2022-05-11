@@ -5,7 +5,7 @@
 Config::Config() {
     auto home = std::getenv("HOME");
     auto path = std::filesystem::path(home);
-    path /= ".config/powerline-cpp/colors.toml";
+    path /= ".config/promptline-cpp/colors.toml";
     if (std::filesystem::exists(path)) {
         try {
             _colors = ConfigParser(path.string()).colorConfig();

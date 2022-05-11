@@ -1,5 +1,5 @@
-#ifndef POWERLINEPP_SEGMENT_HPP
-#define POWERLINEPP_SEGMENT_HPP
+#ifndef PROMPTLINE_SEGMENT_HPP
+#define PROMPTLINE_SEGMENT_HPP
 
 #include <string>
 #include <iostream>

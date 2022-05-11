@@ -1,5 +1,5 @@
-#ifndef POWERLINEPP_CONFIG_HPP
-#define POWERLINEPP_CONFIG_HPP
+#ifndef PROMPTLINE_CONFIG_HPP
+#define PROMPTLINE_CONFIG_HPP
 
 #include "config_parser.hpp"
 #include <string>
