@@ -33,11 +33,11 @@ int main(int argc, char* argv[]) {
 
     if (argc < 2) {
         std::cout << "Current version: "
-                  << POWERLINEPP_VERSION_MAJOR
+                  << PROMPTLINE_VERSION_MAJOR
                   << "."
-                  << POWERLINEPP_VERSION_MINOR
+                  << PROMPTLINE_VERSION_MINOR
                   << "."
-                  << POWERLINEPP_VERSION_PATCH
+                  << PROMPTLINE_VERSION_PATCH
                   << '\n';
         return 0;
     }

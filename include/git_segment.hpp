@@ -1,5 +1,5 @@
-#ifndef POWERLINEPP_GIT_SEGMENT_HPP
-#define POWERLINEPP_GIT_SEGMENT_HPP
+#ifndef PROMPTLINE_GIT_SEGMENT_HPP
+#define PROMPTLINE_GIT_SEGMENT_HPP
 
 #include "segment.hpp"
 #include "formatter.hpp"

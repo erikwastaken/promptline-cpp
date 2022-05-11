@@ -1,5 +1,5 @@
-#ifndef POWERLINEPP_CONFIG_PARSER_HPP
-#define POWERLINEPP_CONFIG_PARSER_HPP
+#ifndef PROMPTLINE_CONFIG_PARSER_HPP
+#define PROMPTLINE_CONFIG_PARSER_HPP
 
 #include <string>
 #include <exception>

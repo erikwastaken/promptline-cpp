@@ -1,5 +1,5 @@
-#ifndef POWERLINEPP_CWD_SEGMENT_HPP
-#define POWERLINEPP_CWD_SEGMENT_HPP
+#ifndef PROMPTLINE_CWD_SEGMENT_HPP
+#define PROMPTLINE_CWD_SEGMENT_HPP
 
 #include "segment.hpp"
 #include "formatter.hpp"
