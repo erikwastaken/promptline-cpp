@@ -17,6 +17,7 @@
 #include "bash_formatter.hpp"
 #include "config.hpp"
 #include "version.hpp"
+#include "toml.hpp"
 
 bool leftPrompt(int argc, char* argv[]) {
     if (argc == 2) return true;
