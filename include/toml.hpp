@@ -9,16 +9,18 @@ namespace toml {
 
     enum class Kind {
         Header,
+        Comment,
         Key,
         AssignmentOperator,
-        Value
+        Value,
+        EoF
     };
 
     class Token {
         public:
             Token(Kind, std::variant<int, bool, std::string>);
-            const Kind kind() const { return _kind; };
-            const auto value() const { return _value; };
+            Kind kind() const { return _kind; };
+            auto value() const { return _value; };
         private:
             Kind _kind;
             std::variant<int, bool, std::string> _value;
@@ -29,10 +31,9 @@ namespace toml {
         public:
             explicit Reader(const std::string &path);
             char peak() const;
-            char peak(int) const;
             char consume();
         private:
-            int i {0};
+            unsigned long i {0};
             std::string _buffer {};
     };
 
@@ -40,14 +41,18 @@ namespace toml {
     class Lexer {
         public:
             explicit Lexer(Reader *r);
-            const Token& peak() const;
-            const Token& peak(int) const;
-            const Token& consume();
+            Token consume() const;
         private:
-            int i {0};
-            std::vector<Token> _tokens;
+            enum class State {
+                Normal,
+                String,
+                Comment,
+                Header
+            };
+            Reader *_reader;
     };
 
+    void debug();
 }
 
 #endif

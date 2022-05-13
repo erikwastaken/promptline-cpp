@@ -12,5 +12,9 @@ add_executable(promptline-cpp src/main.cpp src/config.cpp src/config_parser.cpp
     src/segment.cpp src/time_segment.cpp src/user_segment.cpp
     src/virtualenv_segment.cpp src/ssh_host_segment.cpp src/toml.cpp)
 target_include_directories(promptline-cpp PUBLIC include)
+target_compile_options(promptline-cpp PRIVATE
+    $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
+    -Werror -Wall -Wextra -pedantic>
+    $<$<CXX_COMPILER_ID:MSVC>:/W4>)
 
 install(TARGETS promptline-cpp)
