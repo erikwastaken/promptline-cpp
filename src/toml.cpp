@@ -101,10 +101,7 @@ void toml::debug() {
     auto lex = Lexer(&r);
     auto tok = lex.consume();
     while (tok.kind() != Kind::EoF) {
-        if (std::holds_alternative<int>(tok.value()))
-            std::cout << std::get<int>(tok.value()) << '\n';
-        else
-            std::cout << std::get<std::string>(tok.value()) << '\n';
+        std::visit([](auto&& arg){std::cout << arg << '\n';}, tok.value());
         tok = lex.consume();
     }
 }
