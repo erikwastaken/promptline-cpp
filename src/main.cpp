@@ -32,9 +32,6 @@ bool leftPrompt(int argc, char* argv[]) {
 // expects path to config file as second parameter
 int main(int argc, char* argv[]) {
 
-    toml::debug();
-    return 0;
-
     if (argc < 2) {
         std::cout << "Current version: "
                   << PROMPTLINE_VERSION_MAJOR

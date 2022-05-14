@@ -7,6 +7,9 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+add_executable(debug src/debug.cpp src/toml.cpp)
+target_include_directories(debug PUBLIC include)
+
 add_executable(promptline-cpp src/main.cpp src/config.cpp src/config_parser.cpp
     src/cwd_segment.cpp src/git_segment.cpp src/prompt.cpp src/rc_segment.cpp
     src/segment.cpp src/time_segment.cpp src/user_segment.cpp

@@ -64,8 +64,6 @@ namespace toml {
         private:
             Lexer *_lexer;
     };
-
-    void debug();
 }
 
 #endif

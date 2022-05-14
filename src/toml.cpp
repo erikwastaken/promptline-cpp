@@ -130,21 +130,3 @@ std::unordered_map<std::string, std::unordered_map<std::string, std::variant<int
     }
     return map;
 }
-
-void toml::debug() {
-    auto r = Reader("test.toml");
-    auto lex = Lexer(&r);
-    auto tok = lex.consume();
-    while (tok.kind() != Kind::EoF) {
-        std::visit([](auto&& arg){std::cout << arg << '\n';}, tok.value());
-        tok = lex.consume();
-    }
-    std::visit([](auto&& arg){std::cout << arg << '\n';}, tok.value());
-    //auto p = Parser(&lex);
-    //auto map = p.parse();
-    //for (auto k : map) {
-    //    for (auto kk : k.second) {
-    //        std::visit([](auto&& arg){std::cout << arg << '\n';}, kk.second);
-    //    }
-    //}
-}
