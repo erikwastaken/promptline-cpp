@@ -21,6 +21,8 @@ toml::Reader::Reader(const std::string &path) {
 }
 
 char toml::Reader::peak() const {
+    if (i == _buffer.length())
+        return EOF;
     return _buffer.at(i);
 }
 
@@ -34,8 +36,9 @@ toml::Lexer::Lexer(Reader *r) : _reader(r) { }
 
 toml::Token toml::Lexer::consume() const {
     auto c = _reader->consume();
-    if (c == '\n')
+    while (std::isspace(c)) {
         c = _reader->consume();
+    }
     switch (c) {
         case EOF:
             return Token{Kind::EoF, std::to_string(c)};
@@ -59,10 +62,9 @@ toml::Token toml::Lexer::consume() const {
         }
         case '#': {
             auto s = std::string();
-            c = _reader->consume();
-            while (c != '\n') {
-                s += c;
+            while (_reader->peak() != '\n') {
                 c = _reader->consume();
+                s += c;
             }
             return Token{Kind::Comment, s};
         }
@@ -86,7 +88,7 @@ toml::Token toml::Lexer::consume() const {
         case '=': return Token{Kind::AssignmentOperator, std::to_string(c)};
         default: {
             auto s = std::string();
-            while (c != '=') {
+            while (_reader->peak() != '=') {
                 if (!isspace(c))
                     s += c;
                 c = _reader->consume();
