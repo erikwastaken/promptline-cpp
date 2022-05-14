@@ -36,12 +36,18 @@ toml::Lexer::Lexer(Reader *r) : _reader(r) { }
 
 toml::Token toml::Lexer::consume() const {
     auto c = _reader->consume();
-    while (std::isspace(c)) {
+    while (c != '\n' && std::isspace(c)) {
         c = _reader->consume();
     }
     switch (c) {
         case EOF:
-            return Token{Kind::EoF, std::to_string(c)};
+            return Token{Kind::EoF, "EOF"};
+        case '\n':
+            return Token{Kind::NewLine, "NewLine"};
+        case '[':
+            return Token{Kind::OpeningBrace, "["};
+        case ']':
+            return Token{Kind::ClosingBrace, "]"};
         case '"': {
             auto s = std::string();
             c = _reader->consume();
@@ -49,19 +55,10 @@ toml::Token toml::Lexer::consume() const {
                 s += c;
                 c = _reader->consume();
             }
-            return Token{Kind::Value, s};
-        }
-        case '[': {
-            auto s = std::string();
-            c = _reader->consume();
-            while (c != ']') {
-                s += c;
-                c = _reader->consume();
-            }
-            return Token{Kind::Header, s};
+            return Token{Kind::String, s};
         }
         case '#': {
-            auto s = std::string();
+            auto s = std::string("Comment: ");
             while (_reader->peak() != '\n') {
                 c = _reader->consume();
                 s += c;
@@ -79,23 +76,59 @@ toml::Token toml::Lexer::consume() const {
         case '8':
         case '9': {
             auto s = std::string();
-            while (std::isdigit(c)) {
+            while (std::isdigit(_reader->peak())) {
                 s += c;
                 c = _reader->consume();
             }
-            return Token{Kind::Value, std::stoi(s)};
+            s += c;
+            return Token{Kind::Number, std::stoi(s)};
         }
-        case '=': return Token{Kind::AssignmentOperator, std::to_string(c)};
+        case '=': return Token{Kind::AssignmentOperator, "="};
         default: {
             auto s = std::string();
-            while (_reader->peak() != '=') {
+            while (std::isalnum(_reader->peak())) {
                 if (!isspace(c))
                     s += c;
                 c = _reader->consume();
             }
-            return Token{Kind::Key, s};
+            s += c; // take the last alphanumerical char
+            return Token{Kind::Text, s};
         }
     }
+}
+
+toml::Parser::Parser(toml::Lexer *l) : _lexer(l) {};
+
+std::unordered_map<std::string, std::unordered_map<std::string, std::variant<int, bool, std::string>>> toml::Parser::parse() const {
+    auto map = std::unordered_map<std::string, std::unordered_map<std::string, std::variant<int, bool, std::string>>>();
+    auto tok = _lexer->consume();
+    while (tok.kind() != Kind::EoF) {
+    //    if (tok.kind() == Kind::Header) {
+    //        std::string header = std::get<std::string>(tok.value());
+    //        while (tok.kind() != Kind::Header && tok.kind() != Kind::EoF) {
+    //            tok = _lexer->consume();
+    //            auto key = std::string();
+    //            switch (tok.kind()) {
+    //                case Kind::Key:
+    //                    key = std::get<std::string>(tok.value());
+    //                    break;
+    //                case Kind::Value:
+    //                    if (key.length() != 0) {
+    //                        map[header][key] = tok.value();
+    //                        key = "";
+    //                    } else {
+    //                        throw std::exception();
+    //                    }
+    //                    break;
+    //                default:
+    //                    break; //ignore the rest
+    //            }
+    //        }
+    //    } else {
+    //        tok = _lexer->consume();
+    //    }
+    }
+    return map;
 }
 
 void toml::debug() {
@@ -106,4 +139,12 @@ void toml::debug() {
         std::visit([](auto&& arg){std::cout << arg << '\n';}, tok.value());
         tok = lex.consume();
     }
+    std::visit([](auto&& arg){std::cout << arg << '\n';}, tok.value());
+    //auto p = Parser(&lex);
+    //auto map = p.parse();
+    //for (auto k : map) {
+    //    for (auto kk : k.second) {
+    //        std::visit([](auto&& arg){std::cout << arg << '\n';}, kk.second);
+    //    }
+    //}
 }

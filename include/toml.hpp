@@ -4,15 +4,19 @@
 #include <string>
 #include <variant>
 #include <vector>
+#include <unordered_map>
 
 namespace toml {
 
     enum class Kind {
-        Header,
         Comment,
-        Key,
         AssignmentOperator,
-        Value,
+        OpeningBrace,
+        ClosingBrace,
+        NewLine,
+        Text,
+        Number,
+        String,
         EoF
     };
 
@@ -52,8 +56,16 @@ namespace toml {
             Reader *_reader;
     };
 
+    // turn tokens into result output
+    class Parser {
+        public:
+            explicit Parser(Lexer *l);
+            std::unordered_map<std::string, std::unordered_map<std::string, std::variant<int, bool, std::string>>> parse() const;
+        private:
+            Lexer *_lexer;
+    };
+
     void debug();
 }
 
 #endif
-
