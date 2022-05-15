@@ -5,6 +5,7 @@
 #include <variant>
 #include <vector>
 #include <unordered_map>
+#include <utility>
 
 namespace toml {
 
@@ -18,6 +19,14 @@ namespace toml {
         Number,
         String,
         EoF
+    };
+
+    class ParserError : public std::exception {
+        public:
+            explicit ParserError(std::string msg) : _msg(msg) {};
+            virtual const char* what() const noexcept override { return _msg.c_str(); };
+        private:
+            std::string _msg {};
     };
 
     class Token {
@@ -45,24 +54,31 @@ namespace toml {
     class Lexer {
         public:
             explicit Lexer(Reader *r);
-            Token consume() const;
+            Token peak() const;
+            Token consume();
         private:
-            enum class State {
-                Normal,
-                String,
-                Comment,
-                Header
-            };
             Reader *_reader;
+            std::vector<Token> _tokens {};
+            unsigned long i {0};
+            Token build_token();
     };
 
     // turn tokens into result output
     class Parser {
         public:
             explicit Parser(Lexer *l);
-            std::unordered_map<std::string, std::unordered_map<std::string, std::variant<int, bool, std::string>>> parse() const;
+            std::unordered_map<std::string, std::unordered_map<std::string, std::variant<int, bool, std::string>>> parse();
         private:
+            //std::unordered_map<std::string, std::unordered_map<std::string, std::variant<int, bool, std::string>>> sections();
+            std::pair<std::string, std::unordered_map<std::string, std::variant<int, bool, std::string>>> section();
+            std::string header();
+            std::pair<std::string, std::variant<int, bool, std::string>> key_value_assignment();
+            std::variant<int, bool, std::string> value();
+            Token get_token();
+            Token peak_token();
+            bool is_done() const;
             Lexer *_lexer;
+            bool _eof {false};
     };
 }
 
