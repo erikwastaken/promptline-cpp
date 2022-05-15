@@ -24,6 +24,8 @@ Config::Config() {
                 _colors[n] = _default.at(n);
             }
         }
+    } else {
+        _colors = _default;
     }
 }
 
