@@ -208,3 +208,16 @@ toml::Token toml::Parser::peak_token() {
     }
     return _lexer->peak();
 }
+
+
+std::unordered_map<std::string, std::unordered_map<std::string, std::variant<int, bool, std::string>>> toml::parse_file(const std::string &path) {
+    try {
+        auto r = toml::Reader(path);
+        auto l = toml::Lexer(&r);
+        auto parser = toml::Parser(&l);
+        auto result = parser.parse();
+        return result;
+    } catch (toml::ParserError &e) {
+        return std::unordered_map<std::string, std::unordered_map<std::string, std::variant<int, bool, std::string>>>();
+    }
+}

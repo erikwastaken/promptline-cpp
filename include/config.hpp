@@ -1,11 +1,11 @@
 #ifndef PROMPTLINE_CONFIG_HPP
 #define PROMPTLINE_CONFIG_HPP
 
-#include "config_parser.hpp"
 #include <string>
 #include <exception>
 #include <unordered_map>
 #include <utility>
+#include <array>
 
 class Config {
     public:
@@ -22,6 +22,16 @@ class Config {
             {"ssh", {15,9}},
             {"time", {15,4}}
         };
+        const inline static std::array<std::string, 7> segment_names {
+                "user",
+                "cwd",
+                "git",
+                "exit-code",
+                "virtual-environment",
+                "ssh",
+                "time"
+        };
+
         std::unordered_map<std::string, std::pair<int, int>> _colors {};
 };
 

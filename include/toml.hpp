@@ -80,6 +80,8 @@ namespace toml {
             Lexer *_lexer;
             bool _eof {false};
     };
+
+    std::unordered_map<std::string, std::unordered_map<std::string, std::variant<int, bool, std::string>>> parse_file(const std::string &path);
 }
 
 #endif
