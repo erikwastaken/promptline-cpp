@@ -4,6 +4,8 @@
 #include <memory>
 #include <string>
 #include <cstring>
+#include <vector>
+#include "segment.hpp"
 #include "user_segment.hpp"
 #include "cwd_segment.hpp"
 #include "git_segment.hpp"
@@ -17,7 +19,6 @@
 #include "bash_formatter.hpp"
 #include "config.hpp"
 #include "version.hpp"
-#include "toml.hpp"
 
 bool leftPrompt(int argc, char* argv[]) {
     if (argc == 2) return true;
@@ -28,53 +29,86 @@ bool leftPrompt(int argc, char* argv[]) {
     return true;
 }
 
+std::unique_ptr<Segment> make_segment(const std::string &segment_name, const Config* config, Formatter* fmt, int rc) {
+    int fg = config->fg(segment_name);
+    int bg = config->bg(segment_name);
+    if (segment_name == "user") return std::make_unique<UserSegment>(fg, bg);
+    else if (segment_name == "cwd") return std::make_unique<CwdSegment>(fg, bg, fmt);
+    else if (segment_name == "git") return std::make_unique<GitSegment>(fg, bg, fmt);
+    else if (segment_name == "exit-code") return std::make_unique<RcSegment>(fg, bg, rc);
+    else if (segment_name == "virtual-environment") return std::make_unique<VenvSegment>(fg, bg);
+    else if (segment_name == "ssh") return std::make_unique<SshHostSegment>(fg, bg, fmt);
+    else if (segment_name == "time") return std::make_unique<TimeSegment>(fg, bg);
+    else return nullptr;
+}
+
+void print_version() {
+    std::cout << "Current version: "
+              << PROMPTLINE_VERSION_MAJOR
+              << "."
+              << PROMPTLINE_VERSION_MINOR
+              << "."
+              << PROMPTLINE_VERSION_PATCH
+              << '\n';
+}
+
+std::unique_ptr<Formatter> make_formatter() {
+    if (auto shell = std::getenv("SHELL")) {
+        if (std::string(shell).find("zsh") == std::string::npos)
+            return std::make_unique<BashFormatter>();
+        else
+            return std::make_unique<ZshFormatter>();
+    } else {
+        return nullptr;
+    }
+}
+
 // expects error code of last command as first parameter
 // expects path to config file as second parameter
 int main(int argc, char* argv[]) {
 
     if (argc < 2) {
-        std::cout << "Current version: "
-                  << PROMPTLINE_VERSION_MAJOR
-                  << "."
-                  << PROMPTLINE_VERSION_MINOR
-                  << "."
-                  << PROMPTLINE_VERSION_PATCH
-                  << '\n';
+        print_version();
         return 0;
     }
 
-    std::unique_ptr<Formatter> fmt;
-    if (auto shell = std::getenv("SHELL")) {
-        if (std::string(shell).find("zsh") == std::string::npos)
-            fmt = std::make_unique<BashFormatter>();
-        else
-            fmt = std::make_unique<ZshFormatter>();
-    } else {
+    std::unique_ptr<Formatter> fmt = make_formatter();
+    if (fmt == nullptr)
         return 1;
-    }
 
     const auto config = Config();
-    if (leftPrompt(argc, argv)) {
-        auto user_seg = UserSegment(config.fg("user"), config.bg("user"));
-        auto cwd_seg = CwdSegment(config.fg("cwd"), config.bg("cwd"), fmt.get());
-        auto git_seg = GitSegment(config.fg("git"), config.bg("git"), fmt.get());
-        auto rc = std::atoi(argv[1]);
-        auto rc_seg = RcSegment(config.fg("exit-code"), config.bg("exit-code"), rc);
-        auto venv_seg = VenvSegment(config.fg("virtual-environment"), config.bg("virtual-environment"));
-        auto ssh_seg = SshHostSegment(config.fg("ssh"), config.bg("ssh"), fmt.get());
+    auto rc = std::atoi(argv[1]);
 
-        rc_seg.next(&ssh_seg);
-        ssh_seg.next(&user_seg);
-        user_seg.next(&venv_seg);
-        venv_seg.next(&git_seg);
-        git_seg.next(&cwd_seg);
-        auto prompt = Prompt(&rc_seg, fmt.get());
+    // TODO refactor to remove doubled code
+    // left hand side
+    if (leftPrompt(argc, argv)) {
+        std::vector<std::unique_ptr<Segment>> segments {};
+        for (auto seg : config.left_segments()) {
+            segments.push_back(make_segment(seg, &config, fmt.get(), rc));
+        }
+        auto head = segments[0].get();
+        auto current = head;
+        for (auto i=1ul; i!=segments.size(); ++i) {
+            current->next(segments[i].get());
+            current = segments[i].get();
+        }
+        auto prompt = Prompt(head, fmt.get());
         prompt.left(std::cout);
         return 0;
     }
 
-    auto time_seg = TimeSegment(config.fg("time"), config.bg("time"));
-    auto prompt = Prompt(&time_seg, fmt.get());
+    // right hand side
+    std::vector<std::unique_ptr<Segment>> segments {};
+    for (auto seg : config.right_segments()) {
+        segments.push_back(make_segment(seg, &config, fmt.get(), rc));
+    }
+    auto head = segments[0].get();
+    auto current = head;
+    for (auto i=1ul; i!=segments.size(); ++i) {
+        current->next(segments[i].get());
+        current = segments[i].get();
+    }
+    auto prompt = Prompt(head, fmt.get());
     prompt.right(std::cout);
     return 0;
 }

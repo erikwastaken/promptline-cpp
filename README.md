@@ -69,3 +69,21 @@ a reference, checkout the .toml files in the colors directory.
 
 If a segment is not specified, it's default foreground and background color
 will be used. If no config file is found, all segments will have their default colors.
+
+To configure the order of the segments and on which side they  should be
+displayed, create a file named *segments.toml*. There the segments and their
+priority can be specified as follows:
+
+```toml
+[left]
+user = 10
+git = 20
+
+[right]
+cwd = 10
+time = 20
+```
+
+For the default configuration, refer to the file *default_segments.toml* in the
+[config samples](config_samples). If there is no segments.toml file the default
+configuration will be used.

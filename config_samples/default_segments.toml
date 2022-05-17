@@ -1,0 +1,10 @@
+[left]
+exit-code = 10
+ssh = 20
+user = 30
+virtual-environment = 40
+git = 50
+cwd = 60
+
+[right]
+time=20
