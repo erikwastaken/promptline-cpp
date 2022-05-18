@@ -86,6 +86,8 @@ int main(int argc, char* argv[]) {
         for (auto seg : config.left_segments()) {
             segments.push_back(make_segment(seg, &config, fmt.get(), rc));
         }
+        if (segments.empty())
+            return 1;
         auto head = segments[0].get();
         auto current = head;
         for (auto i=1ul; i!=segments.size(); ++i) {
@@ -102,6 +104,8 @@ int main(int argc, char* argv[]) {
     for (auto seg : config.right_segments()) {
         segments.push_back(make_segment(seg, &config, fmt.get(), rc));
     }
+    if (segments.empty())
+        return 1;
     auto head = segments[0].get();
     auto current = head;
     for (auto i=1ul; i!=segments.size(); ++i) {

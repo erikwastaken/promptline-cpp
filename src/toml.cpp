@@ -183,7 +183,7 @@ std::variant<int, bool, std::string> toml::Parser::value() {
 toml::Token toml::Parser::get_token() {
     auto tok = _lexer->consume();
     // ignore comments
-    while (tok.kind() == Kind::Comment || tok.kind() == Kind::NewLine) {
+    while (tok.kind() == Kind::Comment || tok.kind() == Kind::NewLine || tok.kind() == Kind::EoF) {
         if (tok.kind() == Kind::EoF) {
             _eof = true;
             return tok;
