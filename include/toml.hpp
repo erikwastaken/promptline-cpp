@@ -43,8 +43,8 @@ namespace toml {
     class Reader {
         public:
             explicit Reader(const std::string &path);
-            char peak() const;
-            char consume();
+            signed short peak() const;
+            signed short consume();
         private:
             unsigned long i {0};
             std::string _buffer {};

@@ -21,13 +21,13 @@ toml::Reader::Reader(const std::string &path) {
     }
 }
 
-char toml::Reader::peak() const {
+signed short toml::Reader::peak() const {
     if (i == _buffer.length())
         return EOF;
     return _buffer.at(i);
 }
 
-char toml::Reader::consume() {
+signed short toml::Reader::consume() {
     if (i == _buffer.length())
         return EOF;
     return _buffer.at(i++);
@@ -117,7 +117,7 @@ toml::Token toml::Lexer::build_token() {
     }
 }
 
-toml::Parser::Parser(toml::Lexer *l) : _lexer(l) {};
+toml::Parser::Parser(toml::Lexer *l) : _lexer(l) {}
 
 std::unordered_map<std::string, std::unordered_map<std::string, std::variant<int, bool, std::string>>> toml::Parser::parse() {
     auto map = std::unordered_map<std::string, std::unordered_map<std::string, std::variant<int, bool, std::string>>>();
