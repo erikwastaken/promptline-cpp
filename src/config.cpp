@@ -9,7 +9,7 @@ Config::Config() {
     // colors
     auto color_path = config_path / "colors.toml";
     if (std::filesystem::exists(color_path)) {
-        auto colors = toml::parse_file(color_path.string());
+        auto colors = toml::parse_file(color_path);
         for (const auto &n : segment_names) {
             if (colors.contains(n)) {
                 auto fg = _default.at(n).first;
@@ -32,7 +32,7 @@ Config::Config() {
     // segment order
     auto segment_path = config_path / "segments.toml";
     if (std::filesystem::exists(segment_path)) {
-        auto segment_config = toml::parse_file(segment_path.string());
+        auto segment_config = toml::parse_file(segment_path);
         for (auto header : segment_config) {
             std::vector<std::pair<std::string, int>> sorted_kv {};
             for (const auto& kv : header.second) {

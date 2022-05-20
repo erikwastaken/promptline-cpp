@@ -8,11 +8,11 @@
 
 toml::Token::Token(toml::Kind k, std::variant<int, bool, std::string> v) : _kind(k), _value(v) {}
 
-toml::Reader::Reader(const std::string &path) {
+toml::Reader::Reader(const std::filesystem::path &path) {
     std::fstream ifs;
-    ifs.open(path);
+    ifs.open(path.string());
     if (!ifs.is_open()) {
-        throw std::exception();
+        throw ReaderError("File not open!");
     } else {
         char c;
         while (ifs.get(c)) {
@@ -20,6 +20,8 @@ toml::Reader::Reader(const std::string &path) {
         }
     }
 }
+
+toml::Reader::Reader(const std::string &buffer) : _buffer(buffer) {};
 
 signed short toml::Reader::peak() const {
     if (i == _buffer.length())
@@ -120,12 +122,16 @@ toml::Token toml::Lexer::build_token() {
 toml::Parser::Parser(toml::Lexer *l) : _lexer(l) {}
 
 std::unordered_map<std::string, std::unordered_map<std::string, std::variant<int, bool, std::string>>> toml::Parser::parse() {
-    auto map = std::unordered_map<std::string, std::unordered_map<std::string, std::variant<int, bool, std::string>>>();
-    while (!is_done()) {
-        auto sec = section();
-        map[sec.first] = sec.second;
+    try {
+        auto map = std::unordered_map<std::string, std::unordered_map<std::string, std::variant<int, bool, std::string>>>();
+        while (!is_done()) {
+            auto sec = section();
+            map[sec.first] = sec.second;
+        }
+        return map;
+    } catch (toml::ParserError &e) {
+        return std::unordered_map<std::string, std::unordered_map<std::string, std::variant<int, bool, std::string>>>();
     }
-    return map;
 }
 
 std::pair<std::string, std::unordered_map<std::string, std::variant<int, bool, std::string>>> toml::Parser::section() {
@@ -210,14 +216,10 @@ toml::Token toml::Parser::peak_token() {
 }
 
 
-std::unordered_map<std::string, std::unordered_map<std::string, std::variant<int, bool, std::string>>> toml::parse_file(const std::string &path) {
-    try {
-        auto r = toml::Reader(path);
-        auto l = toml::Lexer(&r);
-        auto parser = toml::Parser(&l);
-        auto result = parser.parse();
-        return result;
-    } catch (toml::ParserError &e) {
-        return std::unordered_map<std::string, std::unordered_map<std::string, std::variant<int, bool, std::string>>>();
-    }
+std::unordered_map<std::string, std::unordered_map<std::string, std::variant<int, bool, std::string>>> toml::parse_file(const std::filesystem::path &path) {
+    auto r = toml::Reader(path);
+    auto l = toml::Lexer(&r);
+    auto parser = toml::Parser(&l);
+    auto result = parser.parse();
+    return result;
 }

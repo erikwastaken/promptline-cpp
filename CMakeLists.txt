@@ -7,6 +7,13 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+add_executable(tests src/toml_test.cpp src/toml.cpp)
+target_include_directories(tests PUBLIC include)
+target_compile_options(tests PRIVATE
+    $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
+    -Werror -Wall -Wextra -pedantic>
+    $<$<CXX_COMPILER_ID:MSVC>:/W4>)
+
 add_executable(promptline-cpp src/main.cpp src/config.cpp src/cwd_segment.cpp
     src/git_segment.cpp src/prompt.cpp src/rc_segment.cpp src/segment.cpp
     src/time_segment.cpp src/user_segment.cpp src/virtualenv_segment.cpp

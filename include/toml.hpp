@@ -6,6 +6,7 @@
 #include <vector>
 #include <unordered_map>
 #include <utility>
+#include <filesystem>
 
 namespace toml {
 
@@ -21,12 +22,22 @@ namespace toml {
         EoF
     };
 
-    class ParserError : public std::exception {
+    class TomlError : public std::exception {
         public:
-            explicit ParserError(std::string msg) : _msg(msg) {};
+            explicit TomlError(std::string msg) : _msg(msg) {};
             virtual const char* what() const noexcept override { return _msg.c_str(); };
-        private:
+        protected:
             std::string _msg {};
+    };
+
+    class ReaderError : public TomlError {
+        public:
+            explicit ReaderError(std::string msg) : TomlError(msg) {};
+    };
+
+    class ParserError : public TomlError {
+        public:
+            explicit ParserError(std::string msg) : TomlError(msg) {};
     };
 
     class Token {
@@ -42,7 +53,8 @@ namespace toml {
     // interface to read a toml source char by char
     class Reader {
         public:
-            explicit Reader(const std::string &path);
+            explicit Reader(const std::string &buffer);
+            explicit Reader(const std::filesystem::path &path);
             signed short peak() const;
             signed short consume();
         private:
@@ -81,7 +93,7 @@ namespace toml {
             bool _eof {false};
     };
 
-    std::unordered_map<std::string, std::unordered_map<std::string, std::variant<int, bool, std::string>>> parse_file(const std::string &path);
+    std::unordered_map<std::string, std::unordered_map<std::string, std::variant<int, bool, std::string>>> parse_file(const std::filesystem::path &path);
 }
 
 #endif
