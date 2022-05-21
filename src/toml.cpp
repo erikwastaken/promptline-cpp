@@ -21,7 +21,7 @@ toml::Reader::Reader(const std::filesystem::path &path) {
     }
 }
 
-toml::Reader::Reader(const std::string &buffer) : _buffer(buffer) {};
+toml::Reader::Reader(const std::string &buffer) : _buffer(buffer) {}
 
 signed short toml::Reader::peak() const {
     if (i == _buffer.length())
